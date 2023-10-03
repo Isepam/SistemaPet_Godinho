@@ -84,8 +84,8 @@ commobox_tipo_animal=Combobox(cadastro_animal,textvariable=tipo_animal)
 commobox_tipo_animal['value']= ['Gato','Cachorro','outros']
 commobox_tipo_animal.grid(column=1,row=3)
 
-button_animal_enviar=Button(cadastro_animal,text='Enviar',command= 
-                             lambda:cadastrar_animal(entry_animal_nome.get(),entry_animal_raca(),entry_animal_dono_cpf.get(),commobox_tipo_animal.ge()))
+button_animal_enviar=Button(cadastro_animal,text='Enviar')
+                             #lambda:cadastrar_animal(entry_animal_nome.get(),entry_animal_raca(),entry_animal_dono_cpf.get(),commobox_tipo_animal.ge()))
 button_animal_enviar.grid(column=0,columnspan=2,row=4)
 #Cadastro serviço
 label_servico_nome=Label(cadastro_servico,text='nome do serviço')
@@ -97,16 +97,17 @@ entry_servico_nome.grid(column=1,row=0)
 label_servico_descricao=Label(cadastro_servico,text='Descricao')
 label_servico_descricao.grid(column=0,row=1)
 
-entry_servico_descricao=Entry(cadastro_servico)
-entry_servico_descricao.grid(column=1,row=1)
-
+entry_servico_descricao=Text(cadastro_servico,width=20,height=5)
+entry_servico_descricao.grid(column=1,row=1,pady=10)
 label_servico_preco=Label(cadastro_servico,text='Preço do serviço')
 label_servico_preco.grid(column=0,row=2)
 
 entry_servico_preco=Entry(cadastro_servico)
 entry_servico_preco.grid(column=1,row=2)
 
-button_servico_enviar=Button(cadastro_servico,text='Enviar')
+button_servico_enviar=Button(cadastro_servico,text='Enviar',command=
+                             lambda: cadastrar_servico(entry_servico_nome.get(),entry_servico_descricao.get(),entry_servico_preco.get()))
+button_animal_enviar.grid(column=0,columnspan=2,row=4)
 button_servico_enviar.grid(column=0,columnspan=2,row=4)
 
 #link dos frames para os notebook
