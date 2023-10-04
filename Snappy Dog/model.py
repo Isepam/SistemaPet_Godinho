@@ -16,15 +16,15 @@ class animais(Bmodel):
     raca=CharField()
     porte=CharField()
     dono=ForeignKeyField(clientes,backref='dono')
-class servico(Bmodel):
+class servicos(Bmodel):
     nome=CharField()
     descricao=CharField()
     preco=CharField()
 class principal(Bmodel):
     animal=ForeignKeyField(animais,backref='historico')
     data=DateField()
-    servico_prestado=ForeignKeyField(servico,backref='prestados')
+    servico_prestado=ForeignKeyField(servicos,backref='prestados')
 
-banco_petShop.create_tables([principal,servico,animais,clientes])
+banco_petShop.create_tables([principal,servicos,animais,clientes])
 
 

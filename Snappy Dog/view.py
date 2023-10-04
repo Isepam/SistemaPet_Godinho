@@ -2,8 +2,8 @@ from tkinter import *
 from tkinter.ttk import *
 
 from controller import *
-tela=Tk()
 
+tela=Tk()
 tela.geometry('800x450')
 tela.title('Petshop')
 
@@ -21,12 +21,33 @@ api.add(Cadastro,text='Cadastro')
 api.add(consulta,text='Consulta')
 
 
-
+#Criação das Telas
 cadastro_cliente=Frame(Cadastro)
 cadastro_animal=Frame(Cadastro)
 cadastro_servico=Frame(Cadastro)
+#Funções para Cadastros
+def Enviar_Cliente():
+    #enviar as Informações ao controlador:
+    cadastrar_cliente(entry_cliente_nome.get(),
+                      entry_cliente_telefone.get(),
+                      entry_cliente_endereco.get(),
+                      entry_cliente_cpf.get())
+    #apaga
+    # entry_cliente_nome.delete(0, 'end')
+    # entry_cliente_telefone.delete(0, 'end')
+    # entry_cliente_endereco.delete(0, 'end')
+    # entry_cliente_cpf.delete(0, 'end')
 
-
+# def enviar_Animal():
+#     Cadastrar_Animal(entry_animal_nome.get(),
+#                      entry_animal_raca(),
+#                      entry_animal_dono_cpf.get(),
+#                      commobox_tipo_animal.get())
+def Enviar_Servico():
+    cadastrar_servico(entry_servico_nome.get(),
+                      text_servico_descricao.get(1.0, "end-1c"),
+                      entry_servico_preco.get())
+    
 
 #cadrasto Cliente
 label_cliente_nome=Label(cadastro_cliente,text='nome')
@@ -53,8 +74,7 @@ label_cliente_endereco.grid(column=0,row=3)
 entry_cliente_endereco=Entry(cadastro_cliente)
 entry_cliente_endereco.grid(column=1,row=3)
 
-button_cliente_enviar=Button(cadastro_cliente,text='Enviar',command= 
-                             lambda:cadastrar_cliente(entry_cliente_nome.get(),entry_cliente_telefone.get(),entry_cliente_endereco.get(),entry_cliente_cpf.get()))
+button_cliente_enviar=Button(cadastro_cliente,text='Enviar',command= Enviar_Cliente())
 button_cliente_enviar.grid(column=0,columnspan=2,row=4)
 
 #cadrasto Animal
@@ -85,9 +105,10 @@ commobox_tipo_animal['value']= ['Gato','Cachorro','outros']
 commobox_tipo_animal.grid(column=1,row=3)
 
 button_animal_enviar=Button(cadastro_animal,text='Enviar')
-                             #lambda:cadastrar_animal(entry_animal_nome.get(),entry_animal_raca(),entry_animal_dono_cpf.get(),commobox_tipo_animal.ge()))
 button_animal_enviar.grid(column=0,columnspan=2,row=4)
+
 #Cadastro serviço
+
 label_servico_nome=Label(cadastro_servico,text='nome do serviço')
 label_servico_nome.grid(column=0,row=0)
 
@@ -97,16 +118,16 @@ entry_servico_nome.grid(column=1,row=0)
 label_servico_descricao=Label(cadastro_servico,text='Descricao')
 label_servico_descricao.grid(column=0,row=1)
 
-entry_servico_descricao=Text(cadastro_servico,width=20,height=5)
-entry_servico_descricao.grid(column=1,row=1,pady=10)
+text_servico_descricao=Text(cadastro_servico,width=20,height=5)
+text_servico_descricao.grid(column=1,row=1,pady=10)
+
 label_servico_preco=Label(cadastro_servico,text='Preço do serviço')
 label_servico_preco.grid(column=0,row=2)
 
 entry_servico_preco=Entry(cadastro_servico)
 entry_servico_preco.grid(column=1,row=2)
 
-button_servico_enviar=Button(cadastro_servico,text='Enviar',command=
-                             lambda: cadastrar_servico(entry_servico_nome.get(),entry_servico_descricao.get(),entry_servico_preco.get()))
+button_servico_enviar=Button(cadastro_servico,text='Enviar',command=Enviar_Servico())
 button_animal_enviar.grid(column=0,columnspan=2,row=4)
 button_servico_enviar.grid(column=0,columnspan=2,row=4)
 
