@@ -1,5 +1,5 @@
 
-
+import tkinter.ttk as TKK
 from controller import *
 
 tela=TK.Tk()
@@ -24,13 +24,6 @@ api.add(consulta,text='Consulta')
 cadastro_cliente=TK.Frame(Cadastro)
 cadastro_animal=TK.Frame(Cadastro)
 cadastro_servico=TK.Frame(Cadastro)
-
-def LimparFrame(telapai):
-    for widget in telapai.winfo_children():
-        if isinstance(widget,TK.Entry):
-            widget.delete(0, "end")
-        if isinstance(widget,TK.Text):
-            widget.delete(1.0, "end")
 
 def Enviar_Cadastro_Cliente(Tela,Nome,telefone,cpf,endereco):
     cadastrar_cliente(Nome,telefone,cpf,endereco)
