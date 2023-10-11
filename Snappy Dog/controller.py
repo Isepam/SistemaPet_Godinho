@@ -58,9 +58,13 @@ def cadastrar_cliente(entrada_Nome,entrada_Telefone,entrada_Cpf,entrada_Endereco
     elif entrada_Cpf == '' or len(entrada_Cpf)>11 or len(entrada_Cpf)<11 or not(validar_cpf(entrada_Cpf)):
         messagebox.showinfo('Erro de Entrada','CPF Invalido')
         return False
+    else:
+        messagebox.showinfo('Concluido','Cadastro Concluido')
+        Cliente=clientes.create(nome=entrada_Nome,telefone=entrada_Telefone,cpf=entrada_Cpf,endereco=entrada_Endereco)
+        return True
     
 
-    # Cliente=clientes.create(nome=entrada_Nome,telefone=entrada_Telefone,cpf=entrada_Cpf,endereco=entrada_Endereco)
+   
 
 
 
@@ -77,6 +81,11 @@ def LimparFrame(telapai):
             widget.delete(0, "end")
         if isinstance(widget,TK.Text):
             widget.delete(1.0, "end")
+
+def select_cliente():
+    tuplas=clientes.select(clientes.nome,clientes.telefone,clientes.cpf,clientes.endereco)
+    return tuplas
+
 
 
 
