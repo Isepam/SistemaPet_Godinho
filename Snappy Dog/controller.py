@@ -1,6 +1,53 @@
 import tkinter as TK
 from tkinter import messagebox
 from model import *
+
+def validar_cpf(cpf):
+    Etapa1_validacao=False
+    Etapa2_validacao=False
+
+    lista_cpf=[]
+    for x in cpf:
+        lista_cpf.append(x)
+
+    nums_validação1=[]
+    for y in range(0,9):
+        nums_validação1.append(int(lista_cpf[y]))
+
+    validante1=int(lista_cpf[-2])
+
+    soma1=0
+    for Ncpf,multi in zip(nums_validação1,range(10,1,-1)):
+        soma1+=(Ncpf*multi)
+
+    validacao1=(soma1*10)%11
+    if validacao1== 10:
+        validacao1=0
+    if validacao1==validante1:
+        Etapa1_validacao=True
+
+    validante2=int(lista_cpf[-1])
+    nums_validação2=nums_validação1
+    nums_validação2.append(validante1)
+
+
+    soma2=0
+    for Ncpf,multi in zip(nums_validação2,range(11,1,-1)):
+        soma2+=(Ncpf*multi)
+
+    validacao2=(soma2*10)%11
+    if validacao2== 10:
+        validacao2=0
+
+    if validacao2==validante2:
+        Etapa2_validacao=True 
+
+    if Etapa1_validacao and Etapa2_validacao:
+        return(True)
+    else:
+        return(False)
+    
+
 def cadastrar_cliente(entrada_Nome,entrada_Telefone,entrada_Cpf,entrada_Endereco):
     if entrada_Nome == '':
         messagebox.showinfo('Erro de Entrada','Nome Invalido')
@@ -8,10 +55,10 @@ def cadastrar_cliente(entrada_Nome,entrada_Telefone,entrada_Cpf,entrada_Endereco
     elif entrada_Telefone == '' or len(entrada_Telefone)>11 or len(entrada_Telefone)<11:
         messagebox.showinfo('Erro de Entrada','Telefone Invalido')
         return False
-    elif entrada_Cpf == '' or len(entrada_Cpf)>11 or len(entrada_Cpf)<11:
+    elif entrada_Cpf == '' or len(entrada_Cpf)>11 or len(entrada_Cpf)<11 or not(validar_cpf(entrada_Cpf)):
         messagebox.showinfo('Erro de Entrada','CPF Invalido')
         return False
-        
+    
 
     # Cliente=clientes.create(nome=entrada_Nome,telefone=entrada_Telefone,cpf=entrada_Cpf,endereco=entrada_Endereco)
 
@@ -31,29 +78,7 @@ def LimparFrame(telapai):
         if isinstance(widget,TK.Text):
             widget.delete(1.0, "end")
 
-def validar_cpf(cpf):
-    # cpf='18239440789'
-    lista_cpf=[]
-    for x in cpf:
-        lista_cpf.append(x)
 
-    lista_cpf_cru=[]
-    for y in range(0,9):
-        lista_cpf_cru.append(int(lista_cpf[y]))
-
-    validante1=lista_cpf[-2]
-    validante2=lista_cpf[-1]
-
-    soma1=0
-    for Ncpf,multi in zip(lista_cpf_cru,range(10,1,-1)):
-        print(Ncpf,multi)
-        soma1+=(Ncpf*multi)
-
-    validacao1=(soma1*10)%11
-    if validacao1== 10:
-        validacao1=0
-    if validante1==validante1:
-        print()
 
     
 

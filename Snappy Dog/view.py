@@ -25,9 +25,9 @@ cadastro_cliente=TK.Frame(Cadastro)
 cadastro_animal=TK.Frame(Cadastro)
 cadastro_servico=TK.Frame(Cadastro)
 
-def Enviar_Cadastro_Cliente(Tela,Nome,telefone,cpf,endereco):
+def Enviar_Cadastro_Cliente(Tela,Nome:str,telefone:str,cpf:str,endereco:str):
     cadastrar_cliente(Nome,telefone,cpf,endereco)
-    LimparFrame(Tela)
+    # LimparFrame(Tela)
 # def Enviar_Cadastro_animal():
 #     cadastro_animal()
 
@@ -57,11 +57,13 @@ label_cliente_endereco=TK.Label(cadastro_cliente,text='Endereço').grid(column=0
 entry_cliente_endereco=TK.Entry(cadastro_cliente)
 entry_cliente_endereco.grid(column=1,row=3,pady=10)
 
-button_cliente_enviar=TK.Button(cadastro_cliente,text='Enviar',command=lambda: Enviar_Cadastro_Cliente(cadastro_cliente,entry_cliente_nome.get(),
-                      entry_cliente_telefone.get(),
-                      entry_cliente_endereco.get(),
-                      entry_cliente_cpf.get())
-                      ).grid(column=0,columnspan=2,row=4,pady=10)
+button_cliente_enviar=TK.Button(cadastro_cliente,text='Enviar',command=
+                    lambda: Enviar_Cadastro_Cliente(cadastro_cliente,
+                                                    entry_cliente_nome.get(),
+                                                    entry_cliente_telefone.get(),
+                                                    entry_cliente_cpf.get(),
+                                                    entry_cliente_endereco.get()
+                                                    )).grid(column=0,columnspan=2,row=4,pady=10)
 
 #cadrasto Animal
 label_animal_nome=TK.Label(cadastro_animal,text='nome do animal',).grid(column=0,row=0)
