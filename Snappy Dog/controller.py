@@ -48,7 +48,8 @@ def validar_cpf(cpf):
         return(False)
     
 
-def cadastrar_cliente(entrada_Nome,entrada_Telefone,entrada_Cpf,entrada_Endereco):
+def cadastrar_cliente(entrada_Nome:str,entrada_Telefone:str,entrada_Cpf:str,entrada_Endereco:str):
+    entrada_Nome=entrada_Nome.capitalize()
     if entrada_Nome == '':
         messagebox.showinfo('Erro de Entrada','Nome Invalido')
         return False
@@ -62,7 +63,7 @@ def cadastrar_cliente(entrada_Nome,entrada_Telefone,entrada_Cpf,entrada_Endereco
         messagebox.showinfo('Concluido','Cadastro Concluido')
         Cliente=clientes.create(nome=entrada_Nome,telefone=entrada_Telefone,cpf=entrada_Cpf,endereco=entrada_Endereco)
         return True
-    
+    c
 
    
 
@@ -83,8 +84,25 @@ def LimparFrame(telapai):
             widget.delete(1.0, "end")
 
 def select_cliente():
-    tuplas=clientes.select(clientes.nome,clientes.telefone,clientes.cpf,clientes.endereco)
+    tuplas=clientes.select()
     return tuplas
+
+
+
+def filtrar_cliente(pesquisa,tipo):
+
+    match tipo:
+        case 'nome':
+            pesquisa=pesquisa.capitalize()
+            query=clientes.select().where(clientes.nome==pesquisa)
+        case 'cpf':
+            query=clientes.select().where(clientes.cpf==pesquisa)
+        case 'telefone':
+            query=clientes.select().where(clientes.telefone==pesquisa)
+    return query
+    
+
+
 
 
 

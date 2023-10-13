@@ -4,7 +4,7 @@ from controller import *
 def Cadastro(telapai):
     tela=TK.Toplevel(telapai)
     tela.geometry('800x450')
-    tela.title('Petshop')
+    tela.title('Petshop_Cadastro')
 
     Cadastro=TKK.Notebook(tela)
     Cadastro.option_add('*Font',"Arial 12")
