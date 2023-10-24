@@ -25,6 +25,7 @@ class principal(Bmodel):
     data=DateField()
     servico_prestado=ForeignKeyField(servicos,backref='prestados')
 
+
 banco_petShop.create_tables([principal,servicos,animais,clientes])
 
 

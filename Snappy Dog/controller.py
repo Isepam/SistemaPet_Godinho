@@ -60,7 +60,7 @@ def cadastrar_cliente(entrada_Nome:str,entrada_Telefone:str,entrada_Cpf:str,entr
         messagebox.showinfo('Erro de Entrada','CPF Invalido')
         return False
     else:
-        messagebox.showinfo('Concluido','Cadastro Concluido')
+        messagebox.showinfo('Concluido','Cadastro Concluido',)
         Cliente=clientes.create(nome=entrada_Nome,telefone=entrada_Telefone,cpf=entrada_Cpf,endereco=entrada_Endereco)
         return True
     c
