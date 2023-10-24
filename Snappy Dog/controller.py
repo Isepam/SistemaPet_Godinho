@@ -48,22 +48,22 @@ def validar_cpf(cpf):
         return(False)
     
 
-def cadastrar_cliente(entrada_Nome:str,entrada_Telefone:str,entrada_Cpf:str,entrada_Endereco:str):
+def cadastrar_cliente(entrada_Nome:str,entrada_Telefone:str,entrada_Cpf:str,entrada_Endereco:str,type:str):
     entrada_Nome=entrada_Nome.capitalize()
     if entrada_Nome == '':
-        messagebox.showinfo('Erro de Entrada','Nome Invalido')
+        messagebox.showerror('Erro de Entrada','Nome Invalido')
         return False
     elif entrada_Telefone == '' or len(entrada_Telefone)>11 or len(entrada_Telefone)<11:
-        messagebox.showinfo('Erro de Entrada','Telefone Invalido')
+        messagebox.showerror('Erro de Entrada','Telefone Invalido')
         return False
     elif entrada_Cpf == '' or len(entrada_Cpf)>11 or len(entrada_Cpf)<11 or not(validar_cpf(entrada_Cpf)):
-        messagebox.showinfo('Erro de Entrada','CPF Invalido')
+        messagebox.showerror('Erro de Entrada','CPF Invalido')
         return False
     else:
         messagebox.showinfo('Concluido','Cadastro Concluido',)
         Cliente=clientes.create(nome=entrada_Nome,telefone=entrada_Telefone,cpf=entrada_Cpf,endereco=entrada_Endereco)
         return True
-    c
+    
 
    
 

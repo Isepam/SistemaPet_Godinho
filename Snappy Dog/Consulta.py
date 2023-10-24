@@ -2,14 +2,12 @@ from tkinter import *
 from tkinter import ttk
 from controller import select_cliente,filtrar_cliente
 from Cadastro_Cliente import Desenhar_cadastro_cliente
-from Cadastro_Animal import Desenhar_cadastro_animal
 
 class janela_cliente:
     def __init__(self):
         self.tela=Tk()
         self.tela.state('zoomed')
         self.tela.title('Petshop')   
-        
         
         self.tela_altura=self.tela.winfo_screenheight()
         self.tela_largura=self.tela.winfo_screenwidth()
@@ -43,14 +41,16 @@ class janela_cliente:
         cx_pesquisa=Entry(self.tela,width=100)
         cx_pesquisa.grid(row=0,column=0,columnspan=2,pady=20,sticky=E)
 
-        tipo_pesquisa=ttk.Combobox(self.tela,values=['nome','cpf','telefone'],width=20)
-        tipo_pesquisa.grid(row=0,column=2,sticky=W)
+        
+        frame_pesquisa=Frame(self.tela)
+        tipo_pesquisa=ttk.Combobox(frame_pesquisa,values=['nome','cpf','telefone'],width=20)
+        tipo_pesquisa.grid(row=0,column=0)
 
-        btn_pesquisar=Button(self.tela,width=20,text='Pesquisar',command= lambda:
+        btn_pesquisar=Button(frame_pesquisa,width=20,text='Pesquisar',command= lambda:
                              self.Atualizar_tree_cliente(tree,
                                                          filtrar_cliente(cx_pesquisa.get(),tipo_pesquisa.get())
-                                                         )).grid(row=0,column=3,sticky=W)
-
+                                                         )).grid(row=0,column=1)
+        frame_pesquisa.grid(row=0,column=2,sticky=W)
 
         # Botões
         
@@ -59,7 +59,7 @@ class janela_cliente:
                                                                 )).grid(row=1,column=0)
         
         btn_criar=Button(self.tela,width=20,text='Cadastrar',command=
-                         lambda:Desenhar_cadastro_animal(self.tela)
+                         lambda:Desenhar_cadastro_cliente(self.tela)
                          ).grid(row=1,column=1)
         
         btn_Editar=Button(self.tela,width=20,text='Editar'
