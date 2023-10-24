@@ -1,11 +1,11 @@
 import tkinter as TK
 from controller import cadastrar_cliente,LimparFrame
-def Desenhar_cadastro_cliente(telapai):
+def Desenhar_cadastro_cliente(telapai,treeview):
     cadastro_cliente=TK.Toplevel(telapai)
     cadastro_cliente.geometry("400x250")
 
     def Enviar_Cadastro_Cliente(Tela,Nome:str,telefone:str,cpf:str,endereco:str):
-        cadastrar_cliente(Nome,telefone,cpf,endereco)
+        cadastrar_cliente(Nome,telefone,cpf,endereco,treeview)
         LimparFrame(Tela)
 
     #cadrasto Cliente

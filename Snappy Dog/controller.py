@@ -48,7 +48,7 @@ def validar_cpf(cpf):
         return(False)
     
 
-def cadastrar_cliente(entrada_Nome:str,entrada_Telefone:str,entrada_Cpf:str,entrada_Endereco:str,type:str):
+def cadastrar_cliente(entrada_Nome:str,entrada_Telefone:str,entrada_Cpf:str,entrada_Endereco:str,tree):
     entrada_Nome=entrada_Nome.capitalize()
     if entrada_Nome == '':
         messagebox.showerror('Erro de Entrada','Nome Invalido')
@@ -60,8 +60,9 @@ def cadastrar_cliente(entrada_Nome:str,entrada_Telefone:str,entrada_Cpf:str,entr
         messagebox.showerror('Erro de Entrada','CPF Invalido')
         return False
     else:
-        messagebox.showinfo('Concluido','Cadastro Concluido',)
+        messagebox.showinfo('Concluido','Cadastro Concluido')
         Cliente=clientes.create(nome=entrada_Nome,telefone=entrada_Telefone,cpf=entrada_Cpf,endereco=entrada_Endereco)
+        Atualizar_tree_cliente(tree,select_cliente())
         return True
     
 
@@ -102,9 +103,20 @@ def filtrar_cliente(pesquisa,tipo):
     return query
     
 
+def Atualizar_tree_cliente(treeview,origem:list):
+    treeview.delete(*treeview.get_children())
+    for tupla in origem:
+        treeview.insert('', TK.END, values=[str(tupla),
+                                            str(tupla.nome),
+                                            str(f'({tupla.telefone[0:2]}) {tupla.telefone[2:]}'),
+                                            str(f'{tupla.cpf[0:3]}.{tupla.cpf[3:6]}.{tupla.cpf[6:9]}-{tupla.cpf[9:11]}'),
+                                            str(tupla.endereco)])
 
-
-
+def Apagar_Instancia(ID:int,classe:str,tree):
+    match classe:
+        case 'Cliente':
+            clientes.delete_by_id(ID)
+            Atualizar_tree_cliente(tree,select_cliente())
 
 
     

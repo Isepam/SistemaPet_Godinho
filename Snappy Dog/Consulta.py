@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
-from controller import select_cliente,filtrar_cliente
+from tkinter import messagebox
+from controller import select_cliente,filtrar_cliente,Atualizar_tree_cliente,Apagar_Instancia
 from Cadastro_Cliente import Desenhar_cadastro_cliente
 
 class janela_cliente:
@@ -11,31 +12,36 @@ class janela_cliente:
         
         self.tela_altura=self.tela.winfo_screenheight()
         self.tela_largura=self.tela.winfo_screenwidth()
+
+    def Apagar_cliente(self,tree):
+        resposta=messagebox.askokcancel('Apagar','Tem certeza que deseja apagar esse cliente')
+        if resposta:
+            for sitem in tree.selection():
+                item=tree.item(sitem)
+                Apagar_Instancia(int(item['values'][0]),'Cliente',tree)
+        
     
-    def Atualizar_tree_cliente(self,treeview,origem:list):
-        treeview.delete(*treeview.get_children())
-        for tupla in origem:
-            treeview.insert('', END, values=[str(tupla),
-                                             str(tupla.nome),
-                                             str(f'({tupla.telefone[0:2]}) {tupla.telefone[2:]}'),
-                                             str(f'{tupla.cpf[0:3]}.{tupla.cpf[3:6]}.{tupla.cpf[6:9]}-{tupla.cpf[9:11]}'),
-                                             str(tupla.endereco)])
+
 
     def desenhar(self):
         #tree view
+        frame_treeview=Frame(self.tela)
         tree_collumns=('Id','Nome','Telefone','CPF','Endereço')
-        tree=ttk.Treeview(self.tela,columns=tree_collumns
+        tree=ttk.Treeview(frame_treeview,columns=tree_collumns
                           ,show='headings',height=self.tela_altura
         )
-        tree_collumns_wid=(1,2,2,2,3)
+        tree_collumns_wid=(10,20,20,20,30,10)
 
         for text,wid in zip(tree_collumns,tree_collumns_wid):
             tree.column(text,width=round((self.tela_largura/sum(tree_collumns_wid))*wid ))
             tree.heading(text,text=text)
 
-        tree.bind('<<TreeviewOpen>>',self.Atualizar_tree_cliente(tree,select_cliente()))
-        #tela
+        scrollbar = ttk.Scrollbar(frame_treeview, orient=VERTICAL, command=tree.yview)
+        tree.configure(yscroll=scrollbar.set)
+        
 
+        tree.bind('<<TreeviewOpen>>',Atualizar_tree_cliente(tree,select_cliente()))
+        #tela
 
 
         cx_pesquisa=Entry(self.tela,width=100)
@@ -47,25 +53,26 @@ class janela_cliente:
         tipo_pesquisa.grid(row=0,column=0)
 
         btn_pesquisar=Button(frame_pesquisa,width=20,text='Pesquisar',command= lambda:
-                             self.Atualizar_tree_cliente(tree,
+                             Atualizar_tree_cliente(tree,
                                                          filtrar_cliente(cx_pesquisa.get(),tipo_pesquisa.get())
                                                          )).grid(row=0,column=1)
         frame_pesquisa.grid(row=0,column=2,sticky=W)
 
-        # Botões
-        
-        btn_Atualizar=Button(self.tela,width=20,text='Atualizar',command=
-                             lambda:self.Atualizar_tree_cliente(tree,select_cliente()
-                                                                )).grid(row=1,column=0)
-        
+        # Botões 
         btn_criar=Button(self.tela,width=20,text='Cadastrar',command=
-                         lambda:Desenhar_cadastro_cliente(self.tela)
-                         ).grid(row=1,column=1)
+                         lambda:Desenhar_cadastro_cliente(self.tela,tree)
+                         ).grid(row=1,column=0)
         
         btn_Editar=Button(self.tela,width=20,text='Editar'
+                          ).grid(row=1,column=1)
+        
+        btn_Apagar=Button(self.tela,width=20,text='Apagar',command= 
+                          lambda: self.Apagar_cliente(tree)
                           ).grid(row=1,column=2)
         #View
-        tree.grid(row=3,column=0,pady=100,columnspan=4)
+        frame_treeview.grid(row=3,column=0,columnspan=4,pady=50)
+        tree.grid(row=0,column=0)
+        scrollbar.grid(row=0,column=1)
 
         self.tela.mainloop()
 
