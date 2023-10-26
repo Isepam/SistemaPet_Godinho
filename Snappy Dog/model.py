@@ -15,7 +15,7 @@ class animais(Bmodel):
     especie=CharField()
     raca=CharField()
     porte=CharField()
-    dono=ForeignKeyField(clientes,backref='dono')
+    dono=ForeignKeyField(clientes,backref='Pets')
 class servicos(Bmodel):
     nome=CharField()
     descricao=CharField()
