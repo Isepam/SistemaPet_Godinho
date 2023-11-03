@@ -18,14 +18,12 @@ class animais(Bmodel):
     dono=ForeignKeyField(clientes,backref='Pets')
 class servicos(Bmodel):
     nome=CharField()
+    preco=FloatField()
     descricao=CharField()
-    preco=CharField()
 class principal(Bmodel):
     animal=ForeignKeyField(animais,backref='historico')
     data=DateField()
     servico_prestado=ForeignKeyField(servicos,backref='prestados')
-
-
 banco_petShop.create_tables([principal,servicos,animais,clientes])
 
 

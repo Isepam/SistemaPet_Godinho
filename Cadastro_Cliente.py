@@ -1,13 +1,18 @@
 import tkinter as TK
-from controller import cadastrar_cliente,LimparFrame
-def Desenhar_cadastro_cliente(telapai,treeview):
+from controller import cadastrar_cliente,Atualizar_cliente,Atualizar_tree_cliente,select_cliente
+def Desenhar_cadastro_cliente(telapai,treeview,update=False,cliente=object):
     cadastro_cliente=TK.Toplevel(telapai)
     cadastro_cliente.geometry("400x250")
 
-    def Enviar_Cadastro_Cliente(Tela,Nome:str,telefone:str,cpf:str,endereco:str):
-        cadastrar_cliente(Nome,telefone,cpf,endereco,treeview)
-        LimparFrame(Tela)
-
+    def Enviar_Cadastro_Cliente(Nome:str,telefone:str,cpf:str,endereco:str):
+        if update:
+            if Atualizar_cliente(Nome,telefone,cpf,endereco,cliente):
+                cadastro_cliente.destroy()
+                Atualizar_tree_cliente(treeview,select_cliente())
+        else:
+            if cadastrar_cliente(Nome,telefone,cpf,endereco):
+                cadastro_cliente.destroy()
+                Atualizar_tree_cliente(treeview,select_cliente())
     #cadrasto Cliente
     label_cliente_nome=TK.Label(cadastro_cliente,text='Nome').grid(column=0,row=0)
 
@@ -36,3 +41,8 @@ def Desenhar_cadastro_cliente(telapai,treeview):
                                                         entry_cliente_cpf.get(),
                                                         text_cliente_endereco.get("1.0",'end-1c')
                                                         )).grid(column=0,columnspan=2,row=4,pady=10)
+    if update:
+        entry_cliente_nome.insert(0,cliente.nome)
+        entry_cliente_telefone.insert(0,cliente.telefone)
+        entry_cliente_cpf.insert(0,cliente.cpf)
+        text_cliente_endereco.insert('1.0',cliente.endereco)

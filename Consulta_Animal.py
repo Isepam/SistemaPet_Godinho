@@ -14,35 +14,58 @@ class janela_Animal:
         self.tela_largura=self.tela.winfo_screenwidth()
 
     def Apagar_Animal(self,tree):
-        resposta=messagebox.askokcancel('Apagar','Tem certeza que deseja apagar esse Pet')
+        resposta=messagebox.askokcancel('Apagar','Tem certeza que deseja apagar esse Pet(s)')
         if resposta:
             for sitem in tree.selection():
                 item=tree.item(sitem)
-                Apagar_Instancia(int(item['values'][0]),'Animal',tree)
-        
+                Apagar_Instancia(int(item['values'][0]),'Animal')
+            Atualizar_tree_animal(tree,select_animal())
+    
+    def Update_Animal(self,tree):
+        for sitem in tree.selection():
+            item=tree.item(sitem)
+            Desenhar_cadastro_animal(self.tela,tree,True,filtrar_animal(item['values'][0]))
     
 
 
     def desenhar(self):
-        #tree view
+      #tree view-----------------------------------
+
+        #frame
+
+        frame_treeview=Frame(self.tela)
+
+        #criação da Tree:
+
         tree_collumns=('Id','Nome','Especie','Raça','Porte','Dono')
-        tree=ttk.Treeview(self.tela,columns=tree_collumns
-                          ,show='headings',height=self.tela_altura
+        tree=ttk.Treeview(frame_treeview,columns=tree_collumns
+                          ,show='headings',height=27
         )
+
+        #tamnho para cada coluna        
         tree_collumns_wid=(10,20,20,20,20,20)
 
         for text,wid in zip(tree_collumns,tree_collumns_wid):
-            tree.column(text,width=round((self.tela_largura/sum(tree_collumns_wid))*wid ))
+            tree.column(text,width=round(((self.tela_largura*0.985)/sum(tree_collumns_wid))*wid ))
             tree.heading(text,text=text)
 
+        #atualização quando abre
+
         tree.bind('<<TreeviewOpen>>',Atualizar_tree_animal(tree,select_animal()))
-        #tela
+
+        #scrollbar
+
+        scrollbar = ttk.Scrollbar(frame_treeview, orient=VERTICAL, command=tree.yview)
+        tree.configure(yscroll=scrollbar.set)
+
+        #Desenho de tela-------------------------------------------------
+
         cx_pesquisa=Entry(self.tela,width=100)
         cx_pesquisa.grid(row=0,column=0,columnspan=2,pady=20,sticky=E)
 
         
         frame_pesquisa=Frame(self.tela)
-        tipo_pesquisa=ttk.Combobox(frame_pesquisa,values=['Nome do dono','Especie','nome','Raça'],width=20)
+        tipo_pesquisa=ttk.Combobox(frame_pesquisa,values=['ID do dono','Especie','nome','Raça'],width=20)
         tipo_pesquisa.grid(row=0,column=0)
 
         btn_pesquisar=Button(frame_pesquisa,width=20,text='Pesquisar',command= lambda:
@@ -56,16 +79,20 @@ class janela_Animal:
                          lambda:Desenhar_cadastro_animal(self.tela,tree)
                          ).grid(row=1,column=0)
         
-        btn_Editar=Button(self.tela,width=20,text='Editar'
+        btn_Editar=Button(self.tela,width=20,text='Editar',command=
+                         lambda:self.Update_Animal(tree)
                           ).grid(row=1,column=1)
         
         btn_Apagar=Button(self.tela,width=20,text='Apagar',command= 
-                          lambda: self.Apagar_cliente(tree)
+                          lambda: self.Apagar_Animal(tree)
                           ).grid(row=1,column=2)
         #View
-        tree.grid(row=3,column=0,columnspan=4,pady=50)
+        frame_treeview.grid(row=3,column=0,columnspan=4,pady=50)
+        tree.grid(row=0,column=0)
+        scrollbar.grid(row=0,column=1)
+        self.tela.mainloop()
         #main loop
         self.tela.mainloop()
-# janelaA=janela_Animal()
+
 
 janela_Animal().desenhar()
