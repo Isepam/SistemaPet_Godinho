@@ -22,7 +22,7 @@ class servicos(Bmodel):
     descricao=CharField()
 class principal(Bmodel):
     animal=ForeignKeyField(animais,backref='historico')
-    data=DateField()
+    data=DateField(formats='%Y-%m-%d')
     servico_prestado=ForeignKeyField(servicos,backref='prestados')
 banco_petShop.create_tables([principal,servicos,animais,clientes])
 

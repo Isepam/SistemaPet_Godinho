@@ -191,6 +191,31 @@ def Atualizar_Animal(Entrada_Nome:str,Entrada_Especie:str,Entrada_Raca:str,Entra
         return True
     else:
         return False
+def cadastrar_historico(Entrada_Animal,Entrada_Servico,Entrada_Data):
+
+    Entrada_Animal=Entrada_Animal.split()[0]
+    Animal=animais.get_by_id(Entrada_Animal)
+
+    Entrada_Servico=Entrada_Servico.split()[0]
+    TipoServico=servicos.get_by_id(Entrada_Servico)
+    Historico=principal.create(data=Entrada_Data,servico_prestado=TipoServico,animal=Animal)
+    return True
+def atualizar_historico(Entrada_Animal,Entrada_Servico,Entrada_Data,id):
+    Entrada_Animal=Entrada_Animal.split()[0]
+    Animal=animais.get_by_id(Entrada_Animal)
+
+    Entrada_Servico=Entrada_Servico.split()[0]
+    TipoServico=servicos.get_by_id(Entrada_Servico)
+
+    registro=principal.get_by_id(id)
+    registro.animal=Animal
+    registro.servico_prestado=TipoServico
+    registro.data=Entrada_Data
+    registro.save()
+    return True
+
+
+
 
 def LimparFrame(telapai):
     for widget in telapai.winfo_children():
@@ -208,7 +233,9 @@ def select_animal():
 def select_servico():
     tuplas=servicos.select()
     return tuplas
-
+def select_historico():
+    tuplas=principal.select()
+    return tuplas
 
 def filtrar_cliente(pesquisa,tipo='ID'):
 
@@ -252,6 +279,19 @@ def filtrar_servico(pesquisa,tipo='ID'):
             float(pesquisa)
             query=servicos.select().where(servicos.preco==pesquisa)
     return query
+
+def filtrar_historico(pesquisa,tipo='ID'):
+
+    match tipo:
+        case 'ID':
+            query=principal.get_by_id(pesquisa)
+        case 'Id Animal':
+            animal=animais.get_by_id(pesquisa)
+            query=principal.select().where(principal.animal==animal)
+        case 'Id Serviço':
+            servico=servicos.get_by_id(pesquisa)
+            query=servicos.select().where(principal.servico_prestado==servico)
+    return query
     
 
 def Atualizar_tree_cliente(treeview,origem:list):
@@ -279,6 +319,14 @@ def Atualizar_tree_servico(treeview,origem:list):
                                             str(tupla.nome),
                                             str(tupla.preco),
                                             str(tupla.descricao)])
+def Atualizar_tree_historico(treeview,origem:list):
+    treeview.delete(*treeview.get_children())
+    for tupla in origem:
+        treeview.insert('', TK.END, values=[str(tupla),
+                                            f'{tupla.animal} {tupla.animal.nome}',
+                                            f'{tupla.servico_prestado} {tupla.servico_prestado.nome}',
+                                            str(tupla.data)
+                                            ])
 
 def Apagar_Instancia(ID:int,classe:str):
     match classe:
@@ -288,6 +336,8 @@ def Apagar_Instancia(ID:int,classe:str):
             animais.delete_by_id(ID)
         case 'Servico':
             servicos.delete_by_id(ID)
+        case 'Principal':
+            principal.delete_by_id(ID)
             
 
 
